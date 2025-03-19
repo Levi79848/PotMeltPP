@@ -33,6 +33,7 @@ public class testAuto extends OpMode {
     private Servo bigPivot = null;
     private Servo smallPivot = null;
     private CRServo crSmallPivot = null;
+    private Servo claw = null;
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer, elapsedTime;
@@ -52,12 +53,15 @@ public class testAuto extends OpMode {
 
     /** Start Pose of our robot */
     private final Pose startPose = new Pose(8, 65, Math.toRadians(0));
-    private final Pose chamberPose = new Pose(35, 65, Math.toRadians(0));
+    private final Pose chamberPose = new Pose(40, 69, Math.toRadians(0));
     private final Pose pickUpPose = new Pose(14, 30, Math.toRadians(0));
 
     private final Pose goToSample1 = new Pose(56, 30, Math.toRadians(0));
-    private final Pose goToSample1_controlPoint = new Pose(27, 38, Math.toRadians(0));
-    private final Pose pushSampleIn1 = new Pose(20, 30, Math.toRadians(0));
+    private final Pose goToSample1_controlPoint = new Pose(23, 40, Math.toRadians(0));
+    private final Pose pushSampleIn1 = new Pose(25, 30, Math.toRadians(0));
+    private final Pose goToSample2 = new Pose(59, 20, Math.toRadians(0));
+    private final Pose goToSample2_controlPoint = new Pose(52, 35, Math.toRadians(0));
+    private final Pose pushSampleIn2 = new Pose(20, 20, Math.toRadians(0));
     private Path scorePreload, pickUpSpec;
     private PathChain samples;
 
@@ -68,6 +72,7 @@ public class testAuto extends OpMode {
         bigPivot = hardwareMap.get(Servo.class,"bigPivot");
         smallPivot = hardwareMap.get(Servo.class,"smallPivot");
         crSmallPivot = hardwareMap.get(CRServo.class,"crSmallPivot");
+        claw = hardwareMap.get(Servo.class,"claw");
 
 
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
@@ -79,6 +84,10 @@ public class testAuto extends OpMode {
                 .setLinearHeadingInterpolation(chamberPose.getHeading(), goToSample1.getHeading())
                 .addPath(new BezierLine(new Point(goToSample1), new Point(pushSampleIn1)))
                 .setLinearHeadingInterpolation(goToSample1.getHeading(), pushSampleIn1.getHeading())
+                .addPath(new BezierCurve(new Point(pushSampleIn1), new Point(goToSample2_controlPoint), new Point(goToSample2)))
+                .setLinearHeadingInterpolation(pushSampleIn1.getHeading(), goToSample2.getHeading())
+                .addPath(new BezierLine(new Point(goToSample2), new Point(pushSampleIn2)))
+                .setLinearHeadingInterpolation(goToSample2.getHeading(), pushSampleIn2.getHeading())
                 .build();
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
@@ -94,10 +103,19 @@ public class testAuto extends OpMode {
             case 0:
                 follower.followPath(scorePreload);
                 armUp();
+                claw.setPosition(0);
                 setPathState(1);
                 break;
             case 1:
                 if(!follower.isBusy()) {
+                    score();
+                    claw.setPosition(0.25);
+                    setPathState(2);
+                }
+                break;
+            case 2:
+                if(!follower.isBusy()) {
+                    armDown();
                     follower.followPath(samples,true);
                     setPathState(-1);
                 }
@@ -161,22 +179,43 @@ public class testAuto extends OpMode {
 
     private void armDown(){
         bigPivot.setPosition(0.78);
-        smallPivot.setPosition(0.23);
-        if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
+        smallPivot.setPosition(0.27);
+        /*float startTime = elapsedTime.getElapsedTime();
+        while(elapsedTime.getElapsedTime() - startTime < 3){
+            bigPivot.setPosition(0.78);
+            smallPivot.setPosition(0.23);
+            //crSmallPivot.setPower(0.018);
+        }*/
+               // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
     }
     private void armUp(){
-        float startTime = elapsedTime.getElapsedTime();
+        bigPivot.setPosition(0.38);
+        smallPivot.setPosition(0.9);
+       /* float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 3){
             bigPivot.setPosition(0.38);
             smallPivot.setPosition(0.9);
-            crSmallPivot.setPower(-0.2);
-        }
+            //crSmallPivot.setPower(-0.4);
+        }*/
                // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
     }
     private void score(){
         bigPivot.setPosition(0.38);
-        smallPivot.setPosition(0.3);
-        if  (smallPivot.getPosition() <= 0.3){crSmallPivot.setPower(1);}
+        smallPivot.setPosition(0.5);
+        /*float startTime = elapsedTime.getElapsedTime();
+        while(elapsedTime.getElapsedTime() - startTime < 2){
+            bigPivot.setPosition(0.38);
+            smallPivot.setPosition(0.3);
+            crSmallPivot.setPower(1);
+        }*/
+        //if  (smallPivot.getPosition() <= 0.3){crSmallPivot.setPower(1);}
+    }
+
+    private void openClaw(){
+        float startTime = elapsedTime.getElapsedTime();
+        while(elapsedTime.getElapsedTime() - startTime > 1){
+            claw.setPosition(0.25);
+        }
     }
 }
 
