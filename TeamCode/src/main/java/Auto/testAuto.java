@@ -101,25 +101,27 @@ public class testAuto extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                follower.followPath(scorePreload);
-                armUp();
-                claw.setPosition(0);
-                setPathState(1);
+                if(!follower.isBusy()) {
+                    follower.followPath(scorePreload);
+                    armUp();
+                    claw.setPosition(0);
+                    setPathState(1);
+                }
                 break;
             case 1:
                 if(!follower.isBusy()) {
                     score();
                     claw.setPosition(0.25);
-                    setPathState(2);
+                    setPathState(-1);
                 }
                 break;
-            case 2:
+            /*case 2:
                 if(!follower.isBusy()) {
                     armDown();
                     follower.followPath(samples,true);
                     setPathState(-1);
                 }
-                break;
+                break;*/
         }
     }
 
@@ -178,36 +180,36 @@ public class testAuto extends OpMode {
     }
 
     private void armDown(){
-        bigPivot.setPosition(0.78);
-        smallPivot.setPosition(0.27);
-        /*float startTime = elapsedTime.getElapsedTime();
+        //bigPivot.setPosition(0.78);
+        //smallPivot.setPosition(0.27);
+        float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 3){
             bigPivot.setPosition(0.78);
             smallPivot.setPosition(0.23);
-            //crSmallPivot.setPower(0.018);
-        }*/
+            crSmallPivot.setPower(0.018);
+        }
                // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
     }
     private void armUp(){
-        bigPivot.setPosition(0.38);
-        smallPivot.setPosition(0.9);
-       /* float startTime = elapsedTime.getElapsedTime();
+        //bigPivot.setPosition(0.38);
+        //smallPivot.setPosition(0.9);
+        float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 3){
             bigPivot.setPosition(0.38);
             smallPivot.setPosition(0.9);
-            //crSmallPivot.setPower(-0.4);
-        }*/
+            crSmallPivot.setPower(-0.8);
+        }
                // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
     }
     private void score(){
-        bigPivot.setPosition(0.38);
-        smallPivot.setPosition(0.5);
-        /*float startTime = elapsedTime.getElapsedTime();
+        //bigPivot.setPosition(0.38);
+        //smallPivot.setPosition(0.5);
+        float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 2){
             bigPivot.setPosition(0.38);
             smallPivot.setPosition(0.3);
             crSmallPivot.setPower(1);
-        }*/
+        }
         //if  (smallPivot.getPosition() <= 0.3){crSmallPivot.setPower(1);}
     }
 
