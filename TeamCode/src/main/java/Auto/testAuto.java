@@ -68,9 +68,11 @@ public class testAuto extends OpMode {
 
     private final Pose scoreSpec2 = new Pose(39, 70, Math.toRadians(0));
     private final Pose scoreSpec3 = new Pose(40, 68.5, Math.toRadians(0));
+    private final Pose scoreSpec4 = new Pose(40, 66.5, Math.toRadians(0));
     private final Pose waitPose1 = new Pose(38.5, 72, Math.toRadians(0));
     private final Pose waitPose2 = new Pose(39.5, 68.5, Math.toRadians(0));
-    private Path scorePreload, pickUpSpec, spec2, wait, grabSpec3, spec3, grabSpec4, wait2;
+    private final Pose waitPose3 = new Pose(39.5, 66, Math.toRadians(0));
+    private Path scorePreload, pickUpSpec, spec2, wait, grabSpec3, spec3, grabSpec4, wait2, spec4, wait3;
     private PathChain samples;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
@@ -119,6 +121,12 @@ public class testAuto extends OpMode {
 
         grabSpec4 = new Path(new BezierLine(new Point(scoreSpec3), new Point(pickUpPose)));
         grabSpec4.setLinearHeadingInterpolation(scoreSpec3.getHeading(), pickUpPose.getHeading());
+
+        spec4 = new Path(new BezierLine(new Point(pickUpPose), new Point(scoreSpec4)));
+        spec4.setLinearHeadingInterpolation(pickUpPose.getHeading(), scoreSpec3.getHeading());
+
+        wait3 = new Path(new BezierLine(new Point(scoreSpec4), new Point(waitPose3)));
+        wait3.setLinearHeadingInterpolation(scoreSpec4.getHeading(), waitPose3.getHeading());
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
         pickUpSpec = new Path(new BezierLine(new Point(chamberPose), new Point(pickUpPose)));
@@ -205,6 +213,25 @@ public class testAuto extends OpMode {
                     follower.followPath(grabSpec4, true);
                     openClaw();
                     armDown();
+                    setPathState(11);
+                }
+                break;
+            case 11:
+                if(!follower.isBusy()) {
+                    closeClaw();
+                    setPathState(12);
+                }
+                break;
+            case 12:
+                if(!follower.isBusy()) {
+                    follower.followPath(spec4, true);
+                    armUp();
+                    setPathState(13);
+                }
+            case 13:
+                if(!follower.isBusy()) {
+                    score();
+                    follower.followPath(wait3, true);
                     setPathState(-1);
                 }
                 break;
