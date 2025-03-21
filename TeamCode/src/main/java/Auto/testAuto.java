@@ -53,8 +53,8 @@ public class testAuto extends OpMode {
 
     /** Start Pose of our robot */
     private final Pose startPose = new Pose(8, 65, Math.toRadians(0));
-    private final Pose chamberPose = new Pose(40, 67, Math.toRadians(0));
-    private final Pose pickUpPose = new Pose(15.5, 30, Math.toRadians(0));
+    private final Pose chamberPose = new Pose(38, 67, Math.toRadians(0));
+    private final Pose pickUpPose = new Pose(16.5, 30, Math.toRadians(0));
 
     private final Pose goToSample1 = new Pose(56, 30, Math.toRadians(0));
     private final Pose goToSample1_controlPoint = new Pose(23, 40, Math.toRadians(0));
@@ -66,9 +66,11 @@ public class testAuto extends OpMode {
     private final Pose goToSample3_controlPoint = new Pose(47, 20, Math.toRadians(0));
     private final Pose pushSampleIn3 = new Pose(15.5, 11, Math.toRadians(0));
 
-    private final Pose scoreSpec2 = new Pose(40, 70, Math.toRadians(0));
-    private final Pose waitPose1 = new Pose(39.5, 72, Math.toRadians(0));
-    private Path scorePreload, pickUpSpec, spec2, wait, grabSpec3;
+    private final Pose scoreSpec2 = new Pose(39, 70, Math.toRadians(0));
+    private final Pose scoreSpec3 = new Pose(40, 68.5, Math.toRadians(0));
+    private final Pose waitPose1 = new Pose(38.5, 72, Math.toRadians(0));
+    private final Pose waitPose2 = new Pose(39.5, 68.5, Math.toRadians(0));
+    private Path scorePreload, pickUpSpec, spec2, wait, grabSpec3, spec3, grabSpec4, wait2;
     private PathChain samples;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
@@ -108,6 +110,15 @@ public class testAuto extends OpMode {
 
         grabSpec3 = new Path(new BezierLine(new Point(waitPose1), new Point(pickUpPose)));
         grabSpec3.setLinearHeadingInterpolation(waitPose1.getHeading(), pickUpPose.getHeading());
+
+        spec3 = new Path(new BezierLine(new Point(pickUpPose), new Point(scoreSpec3)));
+        spec3.setLinearHeadingInterpolation(pickUpPose.getHeading(), scoreSpec3.getHeading());
+
+        wait2 = new Path(new BezierLine(new Point(scoreSpec3), new Point(waitPose2)));
+        wait2.setLinearHeadingInterpolation(scoreSpec3.getHeading(), waitPose2.getHeading());
+
+        grabSpec4 = new Path(new BezierLine(new Point(scoreSpec3), new Point(pickUpPose)));
+        grabSpec4.setLinearHeadingInterpolation(scoreSpec3.getHeading(), pickUpPose.getHeading());
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
         pickUpSpec = new Path(new BezierLine(new Point(chamberPose), new Point(pickUpPose)));
@@ -164,6 +175,34 @@ public class testAuto extends OpMode {
             case 6:
                 if(!follower.isBusy()) {
                     follower.followPath(grabSpec3, true);
+                    openClaw();
+                    armDown();
+                    setPathState(7);
+                }
+                break;
+            case 7:
+                if(!follower.isBusy()) {
+                    closeClaw();
+                    setPathState(8);
+                }
+                break;
+            case 8:
+                if(!follower.isBusy()) {
+                    follower.followPath(spec3, true);
+                    armUp();
+                    setPathState(9);
+                }
+                break;
+            case 9:
+                if(!follower.isBusy()) {
+                    score();
+                    follower.followPath(wait2, true);
+                    setPathState(10);
+                }
+                break;
+            case 10:
+                if(!follower.isBusy()) {
+                    follower.followPath(grabSpec4, true);
                     openClaw();
                     armDown();
                     setPathState(-1);
