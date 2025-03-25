@@ -113,11 +113,11 @@ public class FieldCentricTeleop extends OpMode {
 
             if (gamepad1.b) {
                 bigPivot.setPosition(0.78); //1 for resetting skipping gear, 0.74 for right position
-                smallPivot.setPosition(0.28); //0.1 good
+                smallPivot.setPosition(0.29); //0.1 good
                 if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
             } else if (gamepad1.y) {
                 bigPivot.setPosition(0.38); //0 for resetting skipping gear, 0.2 for right position
-                smallPivot.setPosition(0.9); //0.8 good
+                smallPivot.setPosition(0.95); //0.8 good
                 if (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
             } else if (gamepad1.right_bumper) {
                 crSmallPivot.setPower(-1);
