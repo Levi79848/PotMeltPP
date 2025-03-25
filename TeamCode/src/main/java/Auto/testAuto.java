@@ -53,27 +53,31 @@ public class testAuto extends OpMode {
 
     /** Start Pose of our robot */
     private final Pose startPose = new Pose(8, 65, Math.toRadians(0));
-    private final Pose chamberPose = new Pose(38, 67, Math.toRadians(0));
-    private final Pose pickUpPose = new Pose(16.5, 30, Math.toRadians(0));
+    private final Pose chamberPose = new Pose(38, 66, Math.toRadians(0));
+    private final Pose pickUpPose = new Pose(16.5, 34, Math.toRadians(0));
 
     private final Pose goToSample1 = new Pose(56, 30, Math.toRadians(0));
     private final Pose goToSample1_controlPoint = new Pose(23, 40, Math.toRadians(0));
-    private final Pose pushSampleIn1 = new Pose(27, 30, Math.toRadians(0));
+    private final Pose pushSampleIn1 = new Pose(29, 30, Math.toRadians(0));
     private final Pose goToSample2 = new Pose(59, 20, Math.toRadians(0));
     private final Pose goToSample2_controlPoint = new Pose(52, 35, Math.toRadians(0));
-    private final Pose pushSampleIn2 = new Pose(25, 20, Math.toRadians(0));
+    private final Pose pushSampleIn2 = new Pose(27, 20, Math.toRadians(0));
     private final Pose goToSample3 = new Pose(56, 11, Math.toRadians(0));
-    private final Pose goToSample3_controlPoint = new Pose(47, 20, Math.toRadians(0));
-    private final Pose pushSampleIn3 = new Pose(15.5, 11, Math.toRadians(0));
+    private final Pose goToSample3_controlPoint = new Pose(51, 22, Math.toRadians(0));
+    private final Pose pushSampleIn3 = new Pose(16, 11, Math.toRadians(0));
 
-    private final Pose scoreSpec2 = new Pose(39, 70, Math.toRadians(0));
-    private final Pose scoreSpec3 = new Pose(40, 68.5, Math.toRadians(0));
-    private final Pose scoreSpec4 = new Pose(40, 66.5, Math.toRadians(0));
-    private final Pose waitPose1 = new Pose(38.5, 72, Math.toRadians(0));
-    private final Pose waitPose2 = new Pose(39.5, 68.5, Math.toRadians(0));
-    private final Pose waitPose3 = new Pose(39.5, 66, Math.toRadians(0));
-    private Path scorePreload, pickUpSpec, spec2, wait, grabSpec3, spec3, grabSpec4, wait2, spec4, wait3;
+    private final Pose scoreSpec2 = new Pose(39.5, 68, Math.toRadians(0));
+    private final Pose scoreSpec3 = new Pose(39.5, 71, Math.toRadians(0));
+    private final Pose scoreSpec4 = new Pose(39.5, 74, Math.toRadians(0));
+    private final Pose scoreSpec5 = new Pose(39.5, 77, Math.toRadians(0));
+    private final Pose waitPose1 = new Pose(39.4, 68, Math.toRadians(0));
+    private final Pose waitPose2 = new Pose(39.4, 71, Math.toRadians(0));
+    private final Pose waitPose3 = new Pose(39.4, 74, Math.toRadians(0));
+    private final Pose waitPose4 = new Pose(39.4, 77, Math.toRadians(0));
+    private Path scorePreload, pickUpSpec, spec2, wait, grabSpec3, spec3, grabSpec4, wait2, spec4, wait3, grabSpec5, spec5, wait4, park;
     private PathChain samples;
+
+    private boolean speedToggle = true;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
      * It is necessary to do this so that all the paths are built before the auto starts. **/
@@ -102,6 +106,7 @@ public class testAuto extends OpMode {
                 .setLinearHeadingInterpolation(pushSampleIn2.getHeading(), goToSample3.getHeading())
                 .addPath(new BezierLine(new Point(goToSample3), new Point(pushSampleIn3)))
                 .setLinearHeadingInterpolation(goToSample3.getHeading(), pushSampleIn3.getHeading())
+                .setZeroPowerAccelerationMultiplier(5)
                 .build();
 
         spec2 = new Path(new BezierLine(new Point(pushSampleIn3), new Point(scoreSpec2)));
@@ -119,14 +124,26 @@ public class testAuto extends OpMode {
         wait2 = new Path(new BezierLine(new Point(scoreSpec3), new Point(waitPose2)));
         wait2.setLinearHeadingInterpolation(scoreSpec3.getHeading(), waitPose2.getHeading());
 
-        grabSpec4 = new Path(new BezierLine(new Point(scoreSpec3), new Point(pickUpPose)));
-        grabSpec4.setLinearHeadingInterpolation(scoreSpec3.getHeading(), pickUpPose.getHeading());
+        grabSpec4 = new Path(new BezierLine(new Point(waitPose2), new Point(pickUpPose)));
+        grabSpec4.setLinearHeadingInterpolation(waitPose2.getHeading(), pickUpPose.getHeading());
 
         spec4 = new Path(new BezierLine(new Point(pickUpPose), new Point(scoreSpec4)));
-        spec4.setLinearHeadingInterpolation(pickUpPose.getHeading(), scoreSpec3.getHeading());
+        spec4.setLinearHeadingInterpolation(pickUpPose.getHeading(), scoreSpec4.getHeading());
 
         wait3 = new Path(new BezierLine(new Point(scoreSpec4), new Point(waitPose3)));
         wait3.setLinearHeadingInterpolation(scoreSpec4.getHeading(), waitPose3.getHeading());
+
+        grabSpec5 = new Path(new BezierLine(new Point(waitPose3), new Point(pickUpPose)));
+        grabSpec5.setLinearHeadingInterpolation(waitPose3.getHeading(), pickUpPose.getHeading());
+
+        spec5 = new Path(new BezierLine(new Point(pickUpPose), new Point(scoreSpec5)));
+        spec5.setLinearHeadingInterpolation(pickUpPose.getHeading(), scoreSpec5.getHeading());
+
+        wait4 = new Path(new BezierLine(new Point(scoreSpec5), new Point(waitPose4)));
+        wait4.setLinearHeadingInterpolation(scoreSpec5.getHeading(), waitPose4.getHeading());
+
+        park = new Path(new BezierLine(new Point(waitPose4), new Point(pickUpPose)));
+        park.setLinearHeadingInterpolation(waitPose4.getHeading(), pickUpPose.getHeading());
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
         pickUpSpec = new Path(new BezierLine(new Point(chamberPose), new Point(pickUpPose)));
@@ -143,18 +160,19 @@ public class testAuto extends OpMode {
                     follower.followPath(scorePreload);
                     armUp();
                     claw.setPosition(0);
-                    setPathState(1);
+                    setPathState(2);
                 }
                 break;
-            case 1:
+           /* case 1:
                 if(!follower.isBusy()) {
                     score();
                     claw.setPosition(0.25);
                     setPathState(2);
                 }
-                break;
+                break;*/
             case 2:
                 if(!follower.isBusy()) {
+                    claw.setPosition(0.25);
                     armDown();
                     follower.followPath(samples,true);
                     setPathState(3);
@@ -228,10 +246,47 @@ public class testAuto extends OpMode {
                     armUp();
                     setPathState(13);
                 }
+                break;
             case 13:
                 if(!follower.isBusy()) {
                     score();
                     follower.followPath(wait3, true);
+                    setPathState(14);
+                }
+                break;
+            case 14:
+                if(!follower.isBusy()) {
+                    follower.followPath(grabSpec5, true);
+                    openClaw();
+                    armDown();
+                    setPathState(15);
+                }
+                break;
+            case 15:
+                if(!follower.isBusy()) {
+                    closeClaw();
+                    setPathState(16);
+                }
+                break;
+            case 16:
+                if(!follower.isBusy()) {
+                    follower.followPath(spec5, true);
+                    armUp();
+                    setPathState(17);
+                }
+                break;
+            case 17:
+                if(!follower.isBusy()) {
+                    score();
+                    follower.followPath(wait4, true);
+                    setPathState(18);
+                }
+                break;
+            case 18:
+                if(!follower.isBusy()) {
+                    follower.followPath(park, true);
+                    openClaw();
+                    armDown();
                     setPathState(-1);
                 }
                 break;
@@ -296,9 +351,9 @@ public class testAuto extends OpMode {
         //bigPivot.setPosition(0.78);
         //smallPivot.setPosition(0.27);
         float startTime = elapsedTime.getElapsedTime();
-        while(elapsedTime.getElapsedTime() - startTime < 3){
+        while(elapsedTime.getElapsedTime() - startTime < 1.5){
             bigPivot.setPosition(0.78);
-            smallPivot.setPosition(0.25);
+            smallPivot.setPosition(0.26);
             crSmallPivot.setPower(0.018);
         }
                // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
@@ -309,7 +364,7 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1){
             bigPivot.setPosition(0.38);
-            smallPivot.setPosition(0.95);
+            smallPivot.setPosition(0.97);
             crSmallPivot.setPower(-0.8);
         }
                // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
@@ -318,9 +373,24 @@ public class testAuto extends OpMode {
         //bigPivot.setPosition(0.38);
         //smallPivot.setPosition(0.5);
         float startTime = elapsedTime.getElapsedTime();
-        while(elapsedTime.getElapsedTime() - startTime < 2){
+        while(elapsedTime.getElapsedTime() - startTime < .5){
             bigPivot.setPosition(0.38);
-            smallPivot.setPosition(0.7);
+            smallPivot.setPosition(0.5);
+            crSmallPivot.setPower(1);
+        }
+        //if  (smallPivot.getPosition() <= 0.3){crSmallPivot.setPower(1);}
+    }
+
+    private void fastScore(){
+        //bigPivot.setPosition(0.38);
+        //smallPivot.setPosition(0.5);
+        float startTime = 0;
+        if (speedToggle){
+            startTime = elapsedTime.getElapsedTime();
+        }
+        while((elapsedTime.getElapsedTime() - startTime > 1) && (elapsedTime.getElapsedTime() - startTime < 2)){
+            bigPivot.setPosition(0.38);
+            smallPivot.setPosition(0.5);
             crSmallPivot.setPower(1);
         }
         //if  (smallPivot.getPosition() <= 0.3){crSmallPivot.setPower(1);}
@@ -335,7 +405,7 @@ public class testAuto extends OpMode {
 
     private void closeClaw(){
         float startTime = elapsedTime.getElapsedTime();
-        while(elapsedTime.getElapsedTime() - startTime < 1){
+        while(elapsedTime.getElapsedTime() - startTime < .5){
             claw.setPosition(0);
         }
     }
