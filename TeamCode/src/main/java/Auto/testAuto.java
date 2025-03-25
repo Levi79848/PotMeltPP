@@ -68,12 +68,12 @@ public class testAuto extends OpMode {
 
     private final Pose scoreSpec2 = new Pose(39.5, 68, Math.toRadians(0));
     private final Pose scoreSpec3 = new Pose(39.5, 71, Math.toRadians(0));
-    private final Pose scoreSpec4 = new Pose(39.5, 73, Math.toRadians(0));
-    private final Pose scoreSpec5 = new Pose(39.5, 76, Math.toRadians(0));
+    private final Pose scoreSpec4 = new Pose(39.5, 74, Math.toRadians(0));
+    private final Pose scoreSpec5 = new Pose(39.5, 77, Math.toRadians(0));
     private final Pose waitPose1 = new Pose(39.4, 68, Math.toRadians(0));
     private final Pose waitPose2 = new Pose(39.4, 71, Math.toRadians(0));
-    private final Pose waitPose3 = new Pose(39.4, 73, Math.toRadians(0));
-    private final Pose waitPose4 = new Pose(39.4, 76, Math.toRadians(0));
+    private final Pose waitPose3 = new Pose(39.4, 74, Math.toRadians(0));
+    private final Pose waitPose4 = new Pose(39.4, 77, Math.toRadians(0));
     private Path scorePreload, pickUpSpec, spec2, wait, grabSpec3, spec3, grabSpec4, wait2, spec4, wait3, grabSpec5, spec5, wait4, park;
     private PathChain samples;
 
@@ -106,7 +106,7 @@ public class testAuto extends OpMode {
                 .setLinearHeadingInterpolation(pushSampleIn2.getHeading(), goToSample3.getHeading())
                 .addPath(new BezierLine(new Point(goToSample3), new Point(pushSampleIn3)))
                 .setLinearHeadingInterpolation(goToSample3.getHeading(), pushSampleIn3.getHeading())
-                .setZeroPowerAccelerationMultiplier(7)
+                .setZeroPowerAccelerationMultiplier(5)
                 .build();
 
         spec2 = new Path(new BezierLine(new Point(pushSampleIn3), new Point(scoreSpec2)));
@@ -353,7 +353,7 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1.5){
             bigPivot.setPosition(0.78);
-            smallPivot.setPosition(0.25);
+            smallPivot.setPosition(0.26);
             crSmallPivot.setPower(0.018);
         }
                // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
