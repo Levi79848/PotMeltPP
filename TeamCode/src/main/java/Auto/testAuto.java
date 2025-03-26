@@ -67,10 +67,10 @@ public class testAuto extends OpMode {
     private final Pose goToSample3_controlPoint = new Pose(51, 22, Math.toRadians(0));
     private final Pose pushSampleIn3 = new Pose(15, 11, Math.toRadians(0));
 
-    private final Pose scoreSpec2 = new Pose(39.5, 68, Math.toRadians(0));
+    private final Pose scoreSpec2 = new Pose(39.5, 68.25, Math.toRadians(0));
     private final Pose scoreSpec3 = new Pose(39.5, 71, Math.toRadians(0));
-    private final Pose scoreSpec4 = new Pose(39.5, 74, Math.toRadians(0));
-    private final Pose scoreSpec5 = new Pose(39.5, 77, Math.toRadians(0));
+    private final Pose scoreSpec4 = new Pose(39.5, 73, Math.toRadians(0));
+    private final Pose scoreSpec5 = new Pose(40.5, 74.5, Math.toRadians(0));
     private final Pose waitPose1 = new Pose(39.4, 68, Math.toRadians(0));
     private final Pose waitPose2 = new Pose(39.4, 71, Math.toRadians(0));
     private final Pose waitPose3 = new Pose(39.4, 74, Math.toRadians(0));
@@ -105,9 +105,9 @@ public class testAuto extends OpMode {
                 .setLinearHeadingInterpolation(goToSample2.getHeading(), pushSampleIn2.getHeading())
                 .addPath(new BezierCurve(new Point(pushSampleIn2), new Point(goToSample3_controlPoint), new Point(goToSample3)))
                 .setLinearHeadingInterpolation(pushSampleIn2.getHeading(), goToSample3.getHeading())
-                .setZeroPowerAccelerationMultiplier(5)
                 .addPath(new BezierLine(new Point(goToSample3), new Point(pushSampleIn3)))
                 .setLinearHeadingInterpolation(goToSample3.getHeading(), pushSampleIn3.getHeading())
+                .setZeroPowerAccelerationMultiplier(5)
                 .build();
 
         spec2 = new Path(new BezierLine(new Point(pushSampleIn3), new Point(scoreSpec2)));
@@ -354,7 +354,7 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1.5){
             bigPivot.setPosition(0.78);
-            smallPivot.setPosition(0.27);
+            smallPivot.setPosition(0.275);
             crSmallPivot.setPower(0.018);
         }
                // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
@@ -364,8 +364,8 @@ public class testAuto extends OpMode {
         //smallPivot.setPosition(0.9);
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1){
-            bigPivot.setPosition(0.38);
-            smallPivot.setPosition(0.97);
+            bigPivot.setPosition(0.36);
+            smallPivot.setPosition(0.99);
             crSmallPivot.setPower(-0.8);
         }
                // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
