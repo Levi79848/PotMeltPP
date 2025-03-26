@@ -1,3 +1,4 @@
+
 package Auto;
 
 import com.pedropathing.follower.Follower;
@@ -56,7 +57,7 @@ public class testAuto extends OpMode {
     private final Pose chamberPose = new Pose(38, 66, Math.toRadians(0));
     private final Pose pickUpPose = new Pose(16.5, 34, Math.toRadians(0));
 
-    private final Pose goToSample1 = new Pose(56, 30, Math.toRadians(0));
+    private final Pose goToSample1 = new Pose(56, 28, Math.toRadians(0));
     private final Pose goToSample1_controlPoint = new Pose(23, 40, Math.toRadians(0));
     private final Pose pushSampleIn1 = new Pose(29, 30, Math.toRadians(0));
     private final Pose goToSample2 = new Pose(59, 20, Math.toRadians(0));
@@ -64,7 +65,7 @@ public class testAuto extends OpMode {
     private final Pose pushSampleIn2 = new Pose(27, 20, Math.toRadians(0));
     private final Pose goToSample3 = new Pose(56, 11, Math.toRadians(0));
     private final Pose goToSample3_controlPoint = new Pose(51, 22, Math.toRadians(0));
-    private final Pose pushSampleIn3 = new Pose(16, 11, Math.toRadians(0));
+    private final Pose pushSampleIn3 = new Pose(15, 11, Math.toRadians(0));
 
     private final Pose scoreSpec2 = new Pose(39.5, 68, Math.toRadians(0));
     private final Pose scoreSpec3 = new Pose(39.5, 71, Math.toRadians(0));
@@ -104,9 +105,9 @@ public class testAuto extends OpMode {
                 .setLinearHeadingInterpolation(goToSample2.getHeading(), pushSampleIn2.getHeading())
                 .addPath(new BezierCurve(new Point(pushSampleIn2), new Point(goToSample3_controlPoint), new Point(goToSample3)))
                 .setLinearHeadingInterpolation(pushSampleIn2.getHeading(), goToSample3.getHeading())
+                .setZeroPowerAccelerationMultiplier(5)
                 .addPath(new BezierLine(new Point(goToSample3), new Point(pushSampleIn3)))
                 .setLinearHeadingInterpolation(goToSample3.getHeading(), pushSampleIn3.getHeading())
-                .setZeroPowerAccelerationMultiplier(5)
                 .build();
 
         spec2 = new Path(new BezierLine(new Point(pushSampleIn3), new Point(scoreSpec2)));
@@ -353,7 +354,7 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1.5){
             bigPivot.setPosition(0.78);
-            smallPivot.setPosition(0.26);
+            smallPivot.setPosition(0.27);
             crSmallPivot.setPower(0.018);
         }
                // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
