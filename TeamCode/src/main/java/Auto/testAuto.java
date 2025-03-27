@@ -73,11 +73,11 @@ public class testAuto extends OpMode {
 
     private final Pose scoreSpec2 = new Pose(39.5, 68.25, Math.toRadians(0));
     private final Pose scoreSpec3 = new Pose(39.5, 71, Math.toRadians(0));
-    private final Pose scoreSpec4 = new Pose(39.5, 73, Math.toRadians(0));
+    private final Pose scoreSpec4 = new Pose(40, 73, Math.toRadians(0));
     private final Pose scoreSpec5 = new Pose(40.5, 74.5, Math.toRadians(0));
     private final Pose waitPose1 = new Pose(39.4, 68, Math.toRadians(0));
     private final Pose waitPose2 = new Pose(39.4, 71, Math.toRadians(0));
-    private final Pose waitPose3 = new Pose(39.4, 74, Math.toRadians(0));
+    private final Pose waitPose3 = new Pose(39.9, 73, Math.toRadians(0));
     private final Pose waitPose4 = new Pose(40.4, 74.5, Math.toRadians(0));
     private Path scorePreload, pickUpSpec, spec2, wait, grabSpec3, spec3, grabSpec4, wait2, spec4, wait3, grabSpec5, spec5, wait4, park;
     private PathChain samples;
@@ -379,7 +379,7 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while (elapsedTime.getElapsedTime() - startTime < 1.5) {
             bigPivot.setPosition(0.78);
-            smallPivot.setPosition(0.275);
+            smallPivot.setPosition(0.29);
             crSmallPivot.setPower(0.018);
         }
         // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
@@ -440,7 +440,7 @@ public class testAuto extends OpMode {
 
         private void closeClaw () {
             float startTime = elapsedTime.getElapsedTime();
-            while (elapsedTime.getElapsedTime() - startTime < .5) {
+            while (elapsedTime.getElapsedTime() - startTime < 100) {
                 claw.setPosition(0);
             }
         }
