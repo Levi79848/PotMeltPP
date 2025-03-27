@@ -38,7 +38,7 @@ public class FieldCentricTeleop extends OpMode {
     private Servo bigPivot = null;
     private Servo smallPivot = null;
     private CRServo crSmallPivot = null;
-    private Timer runtime = new Timer();
+    private Timer elapsedTime = new Timer();
 
 
 
@@ -119,10 +119,9 @@ public class FieldCentricTeleop extends OpMode {
                 smallPivot.setPosition(0.29); //0.1 good
                 if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
             } else if (gamepad1.y) {
-                bigPivot.setPosition(0.38); //0 for resetting skipping gear, 0.2 for right position
-                smallPivot.setPosition(0.95); //0.8 good
-                if (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
-            } else if (gamepad1.right_bumper) {
+                armUp();
+            }
+            else if (gamepad1.right_bumper) {
                 crSmallPivot.setPower(-1);
                 smallPivot.setPosition(smallPivot.getPosition()+0.01);
             } else if (gamepad1.left_bumper) {
@@ -190,5 +189,16 @@ public class FieldCentricTeleop extends OpMode {
     /** We do not use this because everything automatically should disable **/
     @Override
     public void stop() {
+    }
+    private void armUp(){
+        //bigPivot.setPosition(0.38);
+        //smallPivot.setPosition(0.9);
+
+            bigPivot.setPosition(0.38);
+            smallPivot.setPosition(0.95);
+            crSmallPivot.setPower(-0.8);
+
+        // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
+
     }
 }
