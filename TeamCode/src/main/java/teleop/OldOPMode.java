@@ -1,5 +1,4 @@
-package teleop;
-
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -38,6 +37,7 @@ public class OldOPMode extends LinearOpMode {
     private Servo bigPivot = null;
     private Servo smallPivot = null;
     private CRServo crSmallPivot = null;
+    private Servo clawTwist = null;
 
 
     /*
@@ -76,6 +76,7 @@ public class OldOPMode extends LinearOpMode {
         bigPivot = hardwareMap.get(Servo.class, "bigPivot");
         smallPivot = hardwareMap.get(Servo.class, "smallPivot");
         crSmallPivot = hardwareMap.get(CRServo.class, "crSmallPivot");
+        clawTwist = hardwareMap.get(Servo.class, "clawTwist");
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests
@@ -121,8 +122,8 @@ public class OldOPMode extends LinearOpMode {
             rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("leftSlide:", leftSlide.getCurrentPosition());
-            telemetry.addData("rightSlide:", rightSlide.getCurrentPosition());
+            telemetry.addData("smallPivotPosition: ", smallPivot.getPosition());
+            telemetry.addData("bigPivotPosition: ", bigPivot.getPosition());
             telemetry.update();
 
 
@@ -150,13 +151,15 @@ public class OldOPMode extends LinearOpMode {
             }
 
             if (gamepad1.b) {
-                bigPivot.setPosition(0.78); //1 for resetting skipping gear, 0.74 for right position
-                smallPivot.setPosition(0.28); //0.1 good
-                if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
+                bigPivot.setPosition(1); //1 for resetting skipping gear, 0.74 for right position
+                smallPivot.setPosition(0.2); //0.1 good
+                clawTwist.setPosition(0.3);
+                crSmallPivot.setPower(0.018);
             } else if (gamepad1.y) {
-                bigPivot.setPosition(0.38); //0 for resetting skipping gear, 0.2 for right position
-                smallPivot.setPosition(0.9); //0.8 good
-                if (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
+                bigPivot.setPosition(0.48); //0 for resetting skipping gear, 0.2 for right position
+                smallPivot.setPosition(0.7); //0.8 good
+                clawTwist.setPosition(1);
+                crSmallPivot.setPower(-0.1);
             } else if (gamepad1.dpad_right) {
                 crSmallPivot.setPower(-1);
                 smallPivot.setPosition(smallPivot.getPosition()+0.01);
