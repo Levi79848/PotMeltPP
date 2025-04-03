@@ -249,7 +249,7 @@ public class testAuto extends OpMode {
                     follower.followPath(grabSpec3, true);
                     openClaw();
                     armDown();
-                    setPathState(-7);
+                    setPathState(7);
                 }
                 break;
             case 7:
@@ -399,7 +399,7 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1.5){
             bigPivot.setPosition(1); //1 for resetting skipping gear, 0.74 for right position
-            smallPivot.setPosition(0.16); //0.1 good
+            smallPivot.setPosition(0.18); //0.1 good
             crSmallPivot.setPower(0.018);
         }
                // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
@@ -441,8 +441,19 @@ public class testAuto extends OpMode {
         //smallPivot.setPosition(0.5);
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 300){
-            bigPivot.setPosition(0.63);
-            smallPivot.setPosition(0.8);
+            bigPivot.setPosition(0.68);
+            smallPivot.setPosition(0.8);//.63
+            crSmallPivot.setPower(-1);
+        }
+        //if  (smallPivot.getPosition() <= 0.3){crSmallPivot.setPower(1);}
+    }
+    private void scoreAfterPre(){
+        //bigPivot.setPosition(0.38);
+        //smallPivot.setPosition(0.5);
+        float startTime = elapsedTime.getElapsedTime();
+        while(elapsedTime.getElapsedTime() - startTime < 300){
+            bigPivot.setPosition(0.7);
+            smallPivot.setPosition(0.8);//.63
             crSmallPivot.setPower(-1);
         }
         //if  (smallPivot.getPosition() <= 0.3){crSmallPivot.setPower(1);}

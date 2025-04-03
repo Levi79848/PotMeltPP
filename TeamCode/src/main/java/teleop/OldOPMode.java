@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.concurrent.TimeUnit;
 
 @TeleOp
-public class PotMelt_TeleOp_Test extends LinearOpMode {
+public class OldOPMode extends LinearOpMode {
 
      
         private ElapsedTime runtime = new ElapsedTime();

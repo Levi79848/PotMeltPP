@@ -37,7 +37,9 @@ public class FieldCentricTeleop extends OpMode {
     private DcMotor rightHang = null;
     private Servo bigPivot = null;
     private Servo smallPivot = null;
+    private Servo clawTwist = null;
     private CRServo crSmallPivot = null;
+
     private Timer elapsedTime = new Timer();
 
 
@@ -50,6 +52,7 @@ public class FieldCentricTeleop extends OpMode {
 
 
         intake = hardwareMap.get(CRServo.class, "intake");
+        clawTwist = hardwareMap.get(Servo.class, "clawTwist");
         sub_extender = hardwareMap.get(CRServo.class, "sub_extender");
         flip = hardwareMap.get(Servo.class, "flip");
         leftSlide = hardwareMap.get(DcMotor.class, "leftSlide");
@@ -108,7 +111,7 @@ public class FieldCentricTeleop extends OpMode {
 
         follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, false);
         follower.update();
-       if (gamepad1.a) {
+      if (gamepad1.a) {
                 claw.setPosition(0.25);
             } else if (gamepad1.x) {
                 claw.setPosition(0);
@@ -116,15 +119,16 @@ public class FieldCentricTeleop extends OpMode {
 
             if (gamepad1.b) {
                 bigPivot.setPosition(0.78); //1 for resetting skipping gear, 0.74 for right position
-                smallPivot.setPosition(0.29); //0.1 good
+                smallPivot.setPosition(0.28); //0.1 good
                 if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
             } else if (gamepad1.y) {
-                armUp();
-            }
-            else if (gamepad1.right_bumper) {
+                bigPivot.setPosition(0.38); //0 for resetting skipping gear, 0.2 for right position
+                smallPivot.setPosition(0.9); //0.8 good
+                if (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
+            } else if (gamepad1.dpad_right) {
                 crSmallPivot.setPower(-1);
                 smallPivot.setPosition(smallPivot.getPosition()+0.01);
-            } else if (gamepad1.left_bumper) {
+            } else if (gamepad1.dpad_left) {
                 crSmallPivot.setPower(1);
                 smallPivot.setPosition(smallPivot.getPosition()-0.01);
             } else {
@@ -189,13 +193,15 @@ public class FieldCentricTeleop extends OpMode {
     /** We do not use this because everything automatically should disable **/
     @Override
     public void stop() {
+
+        follower.setTeleOpMovementVectors(0, 0, 0, false);
     }
     private void armUp(){
         //bigPivot.setPosition(0.38);
         //smallPivot.setPosition(0.9);
 
-            bigPivot.setPosition(0.38);
-            smallPivot.setPosition(0.95);
+            bigPivot.setPosition(0.39);
+            smallPivot.setPosition(0.99);
             crSmallPivot.setPower(-0.8);
 
         // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
