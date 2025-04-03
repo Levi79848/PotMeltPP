@@ -249,6 +249,7 @@ public class testAuto extends OpMode {
                     follower.followPath(grabSpec3, true);
                     openClaw();
                     armDown();
+                    downClawTwist();
                     setPathState(7);
                 }
                 break;
@@ -262,6 +263,7 @@ public class testAuto extends OpMode {
                 if(!follower.isBusy()) {
                     follower.followPath(spec3, true);
                     armUp();
+                    upClawTwist();
                     setPathState(9);
                 }
                 break;
@@ -277,6 +279,7 @@ public class testAuto extends OpMode {
                     follower.followPath(grabSpec4, true);
                     openClaw();
                     armDown();
+                    downClawTwist();
                     setPathState(11);
                 }
                 break;
@@ -290,6 +293,7 @@ public class testAuto extends OpMode {
                 if(!follower.isBusy()) {
                     follower.followPath(spec4, true);
                     armUp();
+                    upClawTwist();
                     setPathState(13);
                 }
                 break;
@@ -305,6 +309,7 @@ public class testAuto extends OpMode {
                     follower.followPath(grabSpec5, true);
                     openClaw();
                     armDown();
+                    downClawTwist();
                     setPathState(15);
                 }
                 break;
@@ -333,6 +338,7 @@ public class testAuto extends OpMode {
                     follower.followPath(park, true);
                     openClaw();
                     armDown();
+                    downClawTwist();
                     setPathState(-1);
                 }
                 break;
@@ -398,8 +404,8 @@ public class testAuto extends OpMode {
         //smallPivot.setPosition(0.27);
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1.5){
-            bigPivot.setPosition(1); //1 for resetting skipping gear, 0.74 for right position
-            smallPivot.setPosition(0.18); //0.1 good
+            bigPivot.setPosition(.99); //1 for resetting skipping gear, 0.74 for right position
+            smallPivot.setPosition(0.17); //0.1 good
             crSmallPivot.setPower(0.018);
         }
                // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
@@ -414,8 +420,8 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < .5){
             telemetry.addData("ElapsedTime :", elapsedTime.getElapsedTime());
-            bigPivot.setPosition(0.63); //0 for resetting skipping gear, 0.2 for right position
-            smallPivot.setPosition(0.55); //0.8 good
+            bigPivot.setPosition(0.62); //.63
+            smallPivot.setPosition(0.55); //.55
             crSmallPivot.setPower(-0.6);
         }
                // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
