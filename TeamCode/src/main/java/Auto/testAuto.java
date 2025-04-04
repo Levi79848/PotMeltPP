@@ -64,16 +64,16 @@ public class testAuto extends OpMode {
     private final Pose goToSample2 = new Pose(59, 20, Math.toRadians(0));
     private final Pose goToSample2_controlPoint = new Pose(52, 35, Math.toRadians(0));
     private final Pose pushSampleIn2 = new Pose(27, 20, Math.toRadians(0));
-    private final Pose goToSample3 = new Pose(56, 11, Math.toRadians(0));
-    private final Pose goToSample3_controlPoint = new Pose(51, 22, Math.toRadians(0));
+    private final Pose goToSample3 = new Pose(58, 11, Math.toRadians(0));
+    private final Pose goToSample3_controlPoint = new Pose(53, 22, Math.toRadians(0));
     private final Pose pushSampleIn3 = new Pose(16, 11, Math.toRadians(0));
 
-    private final Pose scoreSpec2 = new Pose(39.5, 72, Math.toRadians(0));
+    private final Pose scoreSpec2 = new Pose(38, 72, Math.toRadians(0));
     private final Pose scoreSpec2_controlPoint = new Pose(30, 72, Math.toRadians(0));
     private final Pose scoreSpec3 = new Pose(39.5, 71, Math.toRadians(0));
     private final Pose scoreSpec4 = new Pose(39.5, 74, Math.toRadians(0));
     private final Pose scoreSpec5 = new Pose(39.5, 77, Math.toRadians(0));
-    private final Pose waitPose1 = new Pose(39.4, 72, Math.toRadians(0));
+    private final Pose waitPose1 = new Pose(38.9, 72, Math.toRadians(0));
     private final Pose waitPose2 = new Pose(39.4, 71, Math.toRadians(0));
     private final Pose waitPose3 = new Pose(39.4, 74, Math.toRadians(0));
     private final Pose waitPose4 = new Pose(39.4, 77, Math.toRadians(0));
@@ -187,7 +187,6 @@ public class testAuto extends OpMode {
             case 111:
                 if(!follower.isBusy()) {
                     score();
-                    follower.followPath(wait0);
                     setPathState(1);
                 }
                 break;
@@ -233,13 +232,6 @@ public class testAuto extends OpMode {
                     upClawTwist();
                     armUp();
                     follower.followPath(spec2, true);
-                    setPathState(5);
-                }
-                break;
-            case 5:
-                if(!follower.isBusy()) {
-                    armUp();
-                    follower.followPath(wait, true);
                     setPathState(6);
                 }
                 break;
@@ -262,7 +254,7 @@ public class testAuto extends OpMode {
             case 8:
                 if(!follower.isBusy()) {
                     follower.followPath(spec3, true);
-                    armUp();
+                    armUpMore();
                     upClawTwist();
                     setPathState(9);
                 }
@@ -270,7 +262,6 @@ public class testAuto extends OpMode {
             case 9:
                 if(!follower.isBusy()) {
                     score();
-                    follower.followPath(wait2, true);
                     setPathState(10);
                 }
                 break;
@@ -292,7 +283,7 @@ public class testAuto extends OpMode {
             case 12:
                 if(!follower.isBusy()) {
                     follower.followPath(spec4, true);
-                    armUp();
+                    armUpMore();
                     upClawTwist();
                     setPathState(13);
                 }
@@ -300,7 +291,6 @@ public class testAuto extends OpMode {
             case 13:
                 if(!follower.isBusy()) {
                     score();
-                    follower.followPath(wait3, true);
                     setPathState(14);
                 }
                 break;
@@ -322,7 +312,8 @@ public class testAuto extends OpMode {
             case 16:
                 if(!follower.isBusy()) {
                     follower.followPath(spec5, true);
-                    armUp();
+                    armUpMore();
+                    upClawTwist();
                     setPathState(17);
                 }
                 break;
@@ -397,6 +388,7 @@ public class testAuto extends OpMode {
     /** We do not use this because everything should automatically disable **/
     @Override
     public void stop() {
+
     }
 
     private void armDown(){
@@ -405,7 +397,7 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1.5){
             bigPivot.setPosition(.99); //1 for resetting skipping gear, 0.74 for right position
-            smallPivot.setPosition(0.17); //0.1 good
+            smallPivot.setPosition(0.15); //0.1 good
             crSmallPivot.setPower(0.018);
         }
                // if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
@@ -420,11 +412,23 @@ public class testAuto extends OpMode {
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < .5){
             telemetry.addData("ElapsedTime :", elapsedTime.getElapsedTime());
-            bigPivot.setPosition(0.62); //.63
+            bigPivot.setPosition(0.61); //.63
             smallPivot.setPosition(0.55); //.55
             crSmallPivot.setPower(-0.6);
         }
                // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
+    }
+    private void armUpMore(){
+        //bigPivot.setPosition(0.38);
+        //smallPivot.setPosition(0.9);
+        float startTime = elapsedTime.getElapsedTime();
+        while(elapsedTime.getElapsedTime() - startTime < .5){
+            telemetry.addData("ElapsedTime :", elapsedTime.getElapsedTime());
+            bigPivot.setPosition(0.59); //.63
+            smallPivot.setPosition(0.55); //.55
+            crSmallPivot.setPower(-0.6);
+        }
+        // (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
     }
 
     private void armHalfUp(){
