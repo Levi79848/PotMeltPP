@@ -160,10 +160,10 @@ public class OldOPMode extends LinearOpMode {
             smallPivot.setPosition(0.65); //0.8 good
             clawTwist.setPosition(1);
             crSmallPivot.setPower(-0.1);
-        } else if (gamepad1.dpad_right) {
+        } else if (gamepad1.right_bumper) {
             crSmallPivot.setPower(-1);
             smallPivot.setPosition(smallPivot.getPosition()+0.01);
-        } else if (gamepad1.dpad_left) {
+        } else if (gamepad1.left_bumper) {
             crSmallPivot.setPower(1);
             smallPivot.setPosition(smallPivot.getPosition()-0.01);
         } else {

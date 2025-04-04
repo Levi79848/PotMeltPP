@@ -112,28 +112,30 @@ public class FieldCentricTeleop extends OpMode {
         follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, false);
         follower.update();
       if (gamepad1.a) {
-                claw.setPosition(0.25);
-            } else if (gamepad1.x) {
-                claw.setPosition(0);
-            }
+            claw.setPosition(0.25);
+        } else if (gamepad1.x) {
+            claw.setPosition(0);
+        }
 
-            if (gamepad1.b) {
-                bigPivot.setPosition(0.78); //1 for resetting skipping gear, 0.74 for right position
-                smallPivot.setPosition(0.28); //0.1 good
-                if (smallPivot.getPosition() >= 0.23){crSmallPivot.setPower(0.018);}
-            } else if (gamepad1.y) {
-                bigPivot.setPosition(0.38); //0 for resetting skipping gear, 0.2 for right position
-                smallPivot.setPosition(0.9); //0.8 good
-                if (smallPivot.getPosition() <= 0.9){crSmallPivot.setPower(-0.2);}
-            } else if (gamepad1.dpad_right) {
-                crSmallPivot.setPower(-1);
-                smallPivot.setPosition(smallPivot.getPosition()+0.01);
-            } else if (gamepad1.dpad_left) {
-                crSmallPivot.setPower(1);
-                smallPivot.setPosition(smallPivot.getPosition()-0.01);
-            } else {
-                crSmallPivot.setPower(0);
-            }
+        if (gamepad1.b) {
+            bigPivot.setPosition(1); //1 for resetting skipping gear, 0.74 for right position
+            smallPivot.setPosition(0.19); //0.1 good
+            clawTwist.setPosition(0.3);
+            crSmallPivot.setPower(0.018);
+        } else if (gamepad1.y) {
+            bigPivot.setPosition(0.48); //0 for resetting skipping gear, 0.2 for right position
+            smallPivot.setPosition(0.65); //0.8 good
+            clawTwist.setPosition(1);
+            crSmallPivot.setPower(-0.1);
+        } else if (gamepad1.right_bumper) {
+            crSmallPivot.setPower(-1);
+            smallPivot.setPosition(smallPivot.getPosition()+0.01);
+        } else if (gamepad1.left_bumper) {
+            crSmallPivot.setPower(1);
+            smallPivot.setPosition(smallPivot.getPosition()-0.01);
+        } else {
+            crSmallPivot.setPower(0);
+        }
 
         /*
         if (gamepad1.y) {
@@ -146,41 +148,41 @@ public class FieldCentricTeleop extends OpMode {
 
 //gamepad 2 --------------------------------------
 
-            if (gamepad2.left_bumper) {
-                leftHang.setPower(-1);
-                rightHang.setPower(-1);
-            } else if(gamepad2.right_bumper) {
-                leftHang.setPower(1);
-                rightHang.setPower(1);
-            } else {
-                leftHang.setPower(0);
-                rightHang.setPower(0);
-            }
+        if (gamepad2.left_bumper) {
+            leftHang.setPower(-1);
+            rightHang.setPower(-1);
+        } else if(gamepad2.right_bumper) {
+            leftHang.setPower(1);
+            rightHang.setPower(1);
+        } else {
+            leftHang.setPower(0);
+            rightHang.setPower(0);
+        }
 
-            //Intake Stuff ----------------------------------
+        //Intake Stuff ----------------------------------
 
-            if (gamepad2.dpad_left) {
-                sub_extender.setPower(1);
-            } else if (gamepad2.dpad_right) {
-                sub_extender.setPower(-1);
-            } else {
-                sub_extender.setPower(0);
-            }
+        if (gamepad2.dpad_left) {
+            sub_extender.setPower(1);
+        } else if (gamepad2.dpad_right) {
+            sub_extender.setPower(-1);
+        } else {
+            sub_extender.setPower(0);
+        }
 
-            if (gamepad2.a) {
-                intake.setPower(-0.5);
-            }  else if (gamepad2.b) {
-                intake.setPower(0.5);
-            }  else {
-                intake.setPower(0);
-            }
+        if (gamepad2.a) {
+            intake.setPower(-0.5);
+        }  else if (gamepad2.b) {
+            intake.setPower(0.5);
+        }  else {
+            intake.setPower(0);
+        }
 
-            if (gamepad2.dpad_up) {
-                flip.setPosition(0);
-            } else if (gamepad2.dpad_down) {
-                flip.setPosition(0.54);
-            }
-        /* Telemetry Outputs of our Follower */
+        if (gamepad2.dpad_up) {
+             flip.setPosition(0);
+        } else if (gamepad2.dpad_down) {
+             flip.setPosition(0.54);
+        } /* Telemetry Outputs of our Follower */
+
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
         telemetry.addData("Heading in Degrees", Math.toDegrees(follower.getPose().getHeading()));
