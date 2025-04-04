@@ -112,19 +112,19 @@ public class FieldCentricTeleop extends OpMode {
         follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, false);
         follower.update();
       if (gamepad1.a) {
-            claw.setPosition(0.25);
+            claw.setPosition(0.4);
         } else if (gamepad1.x) {
-            claw.setPosition(0);
+            claw.setPosition(0.1);
         }
 
         if (gamepad1.b) {
-            bigPivot.setPosition(1); //1 for resetting skipping gear, 0.74 for right position
-            smallPivot.setPosition(0.19); //0.1 good
+            bigPivot.setPosition(0.99); //1 for resetting skipping gear, 0.74 for right position
+            smallPivot.setPosition(0.17); //0.1 good
             clawTwist.setPosition(0.3);
             crSmallPivot.setPower(0.018);
         } else if (gamepad1.y) {
-            bigPivot.setPosition(0.48); //0 for resetting skipping gear, 0.2 for right position
-            smallPivot.setPosition(0.65); //0.8 good
+            bigPivot.setPosition(0.63); //0 for resetting skipping gear, 0.2 for right position
+            smallPivot.setPosition(0.55); //0.8 good
             clawTwist.setPosition(1);
             crSmallPivot.setPower(-0.1);
         } else if (gamepad1.right_bumper) {

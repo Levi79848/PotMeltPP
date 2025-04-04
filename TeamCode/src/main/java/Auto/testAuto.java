@@ -179,7 +179,7 @@ public class testAuto extends OpMode {
                 if(!follower.isBusy()) {
                     score();
                     upClawTwist();
-                    claw.setPosition(0);
+                    claw.setPosition(0.1);
                     setPathState(0);
                 }
                 break;
@@ -197,7 +197,7 @@ public class testAuto extends OpMode {
                 break;
             case 1:
                 if(!follower.isBusy()) {
-                    claw.setPosition(0.25);
+                    claw.setPosition(0.4);
                     setPathState(2);
                 }
                 break;
@@ -492,14 +492,14 @@ public class testAuto extends OpMode {
     private void openClaw(){
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < 1){
-            claw.setPosition(0.25);
+            claw.setPosition(0.4);
         }
     }
 
     private void closeClaw(){
         float startTime = elapsedTime.getElapsedTime();
         while(elapsedTime.getElapsedTime() - startTime < .5){
-            claw.setPosition(0);
+            claw.setPosition(0.1);
         }
     }
 }
